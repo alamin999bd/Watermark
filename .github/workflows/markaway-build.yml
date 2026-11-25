@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'MarkAwayAI_v0.26.0_BuildReady-2.zip'
+      - 'MarkAwayAI_v0.27.1_Reviewed_Source_Fixed.zip'
       - '.github/workflows/markaway-build.yml'
 permissions:
   contents: read
@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Unpack uploaded source ZIP
+      - name: Unpack reviewed source ZIP
         run: |
-          test -s MarkAwayAI_v0.26.0_BuildReady-2.zip
-          unzip -q MarkAwayAI_v0.26.0_BuildReady-2.zip -d source
+          test -s MarkAwayAI_v0.27.1_Reviewed_Source_Fixed.zip
+          unzip -q MarkAwayAI_v0.27.1_Reviewed_Source_Fixed.zip -d source
           cd source/MarkAwayAI
           test -f app/build.gradle.kts
           test -f settings.gradle.kts
@@ -26,12 +26,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - name: Download licensed MI-GAN model
+      - name: Download pinned licensed MI-GAN model
         run: |
           cd source/MarkAwayAI
           mkdir -p app/src/main/assets/models
           curl --location --fail --retry 3 --retry-delay 2 \
-            "https://huggingface.co/litert-community/MI-GAN-512-Places2-LiteRT/resolve/main/migan_fp16.tflite" \
+            "https://huggingface.co/litert-community/MI-GAN-512-Places2-LiteRT/resolve/179a35d8e8a518f6253f9c42fc9b412c6438cf7c/migan_fp16.tflite" \
             --output app/src/main/assets/models/migan_fp16.tflite
           test "$(stat -c%s app/src/main/assets/models/migan_fp16.tflite)" -gt 10000000
       - name: Verify and build APK
@@ -42,7 +42,7 @@ jobs:
           test -s app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: MarkAwayAI-debug-apk-v0.26.0
+          name: MarkAwayAI-debug-apk-v0.27.1
           path: source/MarkAwayAI/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
