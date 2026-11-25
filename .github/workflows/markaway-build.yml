@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - 'MarkAwayAI_v0.27.1_Reviewed_Source_Fixed.zip'
-      - '.github/workflows/markaway-build.yml'
 permissions:
   contents: read
 jobs:
