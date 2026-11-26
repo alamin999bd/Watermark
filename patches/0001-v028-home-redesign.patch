@@ -1,6 +1,6 @@
 --- a/app/src/main/java/com/markaway/ai/MainActivity.kt
 +++ b/app/src/main/java/com/markaway/ai/MainActivity.kt
-@@ -352,21 +352,50 @@
+@@ -352,23 +352,89 @@
  @Composable
  private fun HomePanel(reduceMotion: Boolean, onAdd: () -> Unit, onRemove: () -> Unit, onVideo: () -> Unit, onLogo: () -> Unit, onGallery: () -> Unit, onSettings: () -> Unit) {
      Column {
@@ -107,4 +107,3 @@
 +    }
 +}
 +
-*** End Patch
