@@ -1,0 +1,33 @@
+--- a/app/src/main/java/com/markaway/ai/MainActivity.kt	2026-11-26 08:37:53.348588099 +0600
++++ b/app/src/main/java/com/markaway/ai/MainActivity.kt	2026-11-26 08:41:03.496092441 +0600
+@@ -19,7 +19,9 @@
+ import androidx.media3.effect.OverlayEffect
+ import androidx.media3.effect.BitmapOverlay
+ import androidx.media3.effect.TextOverlay
+-import androidx.media3.effect.StaticOverlaySettings
++import androidx.media3.common.Effect
++import androidx.media3.effect.OverlaySettings
++import androidx.media3.effect.TextureOverlay
+ import androidx.media3.transformer.EditedMediaItem
+ import androidx.media3.transformer.Effects
+ import androidx.media3.transformer.ExportException
+@@ -972,16 +974,16 @@
+         }
+         val anchorX = (centerX.coerceIn(0.05f, 0.95f) * 2f) - 1f
+         val anchorY = 1f - (centerY.coerceIn(0.05f, 0.95f) * 2f)
+-        val overlaySettings = StaticOverlaySettings.Builder()
++        val overlaySettings = OverlaySettings.Builder()
+             .setOverlayFrameAnchor(0f, 0f)
+             .setBackgroundFrameAnchor(anchorX, anchorY)
+             .setScale(widthFraction.coerceIn(0.10f, 0.42f), (widthFraction * 0.40f).coerceIn(0.06f, 0.20f))
+             .setAlphaScale(1f)
+             .build()
+         val patchOverlay = BitmapOverlay.createStaticBitmapOverlay(patch, overlaySettings)
+-        val overlayEffect = OverlayEffect(ImmutableList.of(patchOverlay))
++        val overlayEffect = OverlayEffect(ImmutableList.of<TextureOverlay>(patchOverlay))
+         val editedItem = EditedMediaItem.Builder(MediaItem.fromUri(inputUri))
+-            .setEffects(Effects(ImmutableList.of(), ImmutableList.of(overlayEffect)))
++            .setEffects(Effects(ImmutableList.of(), ImmutableList.of<Effect>(overlayEffect)))
+             .build()
+         val transformer = Transformer.Builder(context)
+             .addListener(object : Transformer.Listener {
