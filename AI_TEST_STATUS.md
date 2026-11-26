@@ -1,27 +1,29 @@
 # AI Removal Test Status — 2026-11-26
 
-## Image AI (MI-GAN)
-- The GitHub Actions Android emulator ran the real LiteRT MI-GAN inference engine with the pinned model asset.
+## Hardened Android emulator test: PASS
+GitHub Actions run #3 completed successfully:
+https://github.com/alamin999bd/Watermark/actions/runs/45771847781
+
+The test harness now fails the instrumentation test when image inference/quality assertions fail, when video export times out, or when the video engine reports failure.
+
+### Image AI (MI-GAN)
 - Synthetic 512x512 sample: mask-region mean error improved from 30.09 to 22.41; mean change outside the mask was 0.00.
 - Synthetic 1280x720 sample: mask-region mean error improved from 23.24 to 15.28; mean change outside the mask was 1.68.
-- The emulator log confirms GPU model compilation failed and the engine fell back to the XNNPACK CPU delegate.
-- These results demonstrate inference on synthetic emulator test images only. They do not guarantee clean results on arbitrary user photos.
+- Both sizes passed the explicit assertions: mask-region error improved and outside-mask change stayed at or below 3.0.
+- GPU model compilation failed in the emulator; the XNNPACK CPU fallback completed inference.
+- These are synthetic emulator samples, not guarantees for arbitrary user photos.
 
-## Video AI
-- The emulator processed a synthetic 3-second, 45-frame clip.
-- Frame decoding, fixed-area MI-GAN frame repair, MP4 encoding and audio remux completed successfully in about 24 seconds on the emulator.
-- The engine currently applies one stationary normalized rectangle to every frame. Moving-watermark tracking/keyframes and timeline editing are not implemented.
-- The 20-second maximum clip duration and 1280-pixel maximum processing width are enforced by the current engine.
-
-## Test hardening
-- Earlier test logs showed the engine could report an individual test failure while the instrumentation test itself still ended with OK. The emulator test was updated on 2026-11-26 to fail the test run on image inference/quality assertions, timeout, or video export failure.
-- The hardened test run is pending. Do not treat earlier test pass markers as proof that the new assertions passed.
+### Video AI
+- A synthetic 3-second, 45-frame clip completed fixed-area per-frame MI-GAN repair, MP4 encoding and audio remux in approximately 30.2 seconds on the emulator.
+- Both as-shipped and CPU-diagnostic runs passed the explicit success and timeout assertions.
+- The engine applies one fixed rectangle to every frame. Moving-watermark tracking/keyframes are not implemented.
+- Current engine limits: 20-second clips, processing width up to 1280 pixels, and frame rate up to 30 FPS.
 
 ## Not tested
 - Samsung Galaxy M12 / Android 13 physical-device installation, runtime, performance, memory, heat and battery.
-- Real user photos/videos and a range of codecs, resolutions, frame rates and audio tracks.
+- Real user photos/videos and a broad range of codecs, resolutions, frame rates and audio tracks.
 - Moving-watermark tracking, automatic edge detection and perspective correction.
-- Full editor navigation, gallery workflows and all export UI paths.
+- Full manual UI walkthrough across every navigation, gallery and export path.
 
 ## Release gate
-Do not label the app a final release until the hardened emulator tests and build pass, the app's supported features and limitations are clearly disclosed, and a physical-device test report is recorded. Any unavailable feature must remain marked unavailable rather than being implied to work.
+CI build and hardened emulator AI tests pass, but physical-device testing remains NOT TESTED. Do not describe the app as fully device-verified until a Samsung Galaxy M12 test report is recorded. Keep unavailable features clearly labelled.
