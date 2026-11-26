@@ -25,8 +25,6 @@ jobs:
           for p in patches/*.patch; do
             patch -d source/MarkAwayAI -p1 --forward --fuzz=0 < "$p"
           done
-      - name: Set v0.28.0 app version
-        run: sed -i 's/versionName = "0.27.1"/versionName = "0.28.0"/' source/MarkAwayAI/app/build.gradle.kts
       - name: Apply v0.28 Home redesign
         run: python3 tools/apply_home_redesign.py
       - name: Upload patched source for review
@@ -58,7 +56,7 @@ jobs:
           test -s app/build/outputs/apk/debug/app-debug.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: MarkAwayAI-debug-apk-v0.28.0
+          name: MarkAwayAI-debug-apk-v0.27.1-home-redesign
           path: source/MarkAwayAI/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
           retention-days: 14
