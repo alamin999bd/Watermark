@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'MarkAwayAI_v0.27.1_Reviewed_Source_Fixed.zip'
+      - 'patches/**'
+      - '.github/workflows/markaway-build.yml'
 permissions:
   contents: read
 jobs:
@@ -18,6 +20,11 @@ jobs:
           cd source/MarkAwayAI
           test -f app/build.gradle.kts
           test -f settings.gradle.kts
+      - name: Apply build fixes
+        run: |
+          for p in patches/*.patch; do
+            patch -d source/MarkAwayAI -p1 --forward --fuzz=0 < "$p"
+          done
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
