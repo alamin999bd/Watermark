@@ -5,6 +5,7 @@ on:
     paths:
       - 'MarkAwayAI_v0.27.1_Reviewed_Source_Fixed.zip'
       - 'patches/**'
+      - 'tools/**'
       - '.github/workflows/markaway-build.yml'
 permissions:
   contents: read
@@ -27,6 +28,8 @@ jobs:
           done
       - name: Apply v0.28 Home redesign
         run: python3 tools/apply_home_redesign.py
+      - name: Fix brush touch handling
+        run: python3 tools/apply_brush_touch_fix.py
       - name: Upload patched source for review
         uses: actions/upload-artifact@v4
         with:
