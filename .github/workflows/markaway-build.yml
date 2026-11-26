@@ -25,6 +25,12 @@ jobs:
           for p in patches/*.patch; do
             patch -d source/MarkAwayAI -p1 --forward --fuzz=0 < "$p"
           done
+      - name: Upload patched source for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: MarkAwayAI-patched-source-review
+          path: source/MarkAwayAI/
+          retention-days: 3
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
