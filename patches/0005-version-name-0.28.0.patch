@@ -1,0 +1,10 @@
+--- a/app/build.gradle.kts
++++ b/app/build.gradle.kts
+@@ -11,7 +11,7 @@ android {
+         applicationId = "com.markaway.ai"
+         minSdk = 26
+         targetSdk = 35
+         versionCode = 28
+-        versionName = "0.27.1"
++        versionName = "0.28.0"
+     }
