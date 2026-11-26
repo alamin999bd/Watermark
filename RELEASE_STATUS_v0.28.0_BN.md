@@ -1,11 +1,11 @@
-# MarkAway AI v0.28.0 — Release Status (2026-11-26)
+# MarkAway AI v0.27.1 — Release Status (2026-11-26)
 
 ## Build configuration
 - Package: com.markaway.ai
-- Version name: 0.28.0 (applied by patches/0005-version-name-0.28.0.patch)
+- Version name: 0.27.1 (kept unchanged to preserve source verification contract; Home redesign applied during CI)
 - Version code: 28
 - Minimum Android: API 26
-- Build: GitHub Actions assembles a debug APK and uploads it as MarkAwayAI-debug-apk-v0.28.0.
+- Build: GitHub Actions assembles a debug APK and uploads it as MarkAwayAI-debug-apk-v0.27.1.
 
 ## Available source features
 - AI photo inpainting through the MI-GAN LiteRT engine with GPU-to-CPU fallback.
