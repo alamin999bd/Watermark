@@ -1,0 +1,36 @@
+--- a/app/src/main/java/com/markaway/ai/LiteRtMiganInpaintingEngine.kt	2026-11-26 08:48:41.831615201 +0600
++++ b/app/src/main/java/com/markaway/ai/LiteRtMiganInpaintingEngine.kt	2026-11-26 08:48:41.865015831 +0600
+@@ -28,6 +28,19 @@
+     fun isModelBundled(context: Context): Boolean =
+         runCatching { context.assets.open(MODEL_ASSET).use { true } }.getOrDefault(false)
+ 
++    /** Prefers the GPU; falls back to CPU when the GPU cannot compile the model. */
++    private fun createModel(context: Context): CompiledModel {
++        fun create(accelerator: Accelerator) = CompiledModel.create(
++            context.assets, MODEL_ASSET, CompiledModel.Options(accelerator), null
++        )
++        return try {
++            create(Accelerator.GPU)
++        } catch (e: Exception) {
++            android.util.Log.w("MarkAwayAI", "GPU model compile failed, using CPU", e)
++            create(Accelerator.CPU)
++        }
++    }
++
+     /**
+      * Runs offline inpainting. White pixels in eraseMask mark pixels to erase.
+      * The complete image is resized to the 512×512 model canvas and restored to source dimensions.
+@@ -67,12 +80,7 @@
+             // Keep the compiled model alive across video frames. Recompiling the
+             // GPU model for every frame would make video processing impractical.
+             val generated = synchronized(modelLock) {
+-                val compiled = cachedModel ?: CompiledModel.create(
+-                    context.assets,
+-                    MODEL_ASSET,
+-                    CompiledModel.Options(Accelerator.GPU),
+-                    null
+-                ).also { cachedModel = it }
++                val compiled = cachedModel ?: createModel(context).also { cachedModel = it }
+                 val inputs = compiled.createInputBuffers()
+                 val outputs = compiled.createOutputBuffers()
+                 try {

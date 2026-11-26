@@ -1,0 +1,11 @@
+--- a/app/build.gradle.kts	2026-11-26 08:48:41.830816048 +0600
++++ b/app/build.gradle.kts	2026-11-26 08:48:41.836815596 +0600
+@@ -40,6 +40,8 @@
+     implementation("androidx.media3:media3-common:1.5.1")
+     // FFmpegKit-compatible maintained Android runtime: frame extraction, audio remux and MP4 encoding.
+     implementation("dev.ffmpegkit-maintained:ffmpeg-kit-full:8.1.7")
++    // Required at runtime by FFmpegKit; without it Video AI crashes with NoClassDefFoundError.
++    implementation("com.arthenica:smart-exception-java:0.2.1")
+     // LiteRT CompiledModel runtime for the MI-GAN inpainting model.
+     implementation("com.google.ai.edge.litert:litert:2.4.0")
+     implementation("com.google.ai.edge.litert:litert-gpu:2.4.0")
