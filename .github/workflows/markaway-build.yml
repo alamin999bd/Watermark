@@ -25,6 +25,8 @@ jobs:
           for p in patches/*.patch; do
             patch -d source/MarkAwayAI -p1 --forward --fuzz=0 < "$p"
           done
+      - name: Apply v0.28 Home redesign
+        run: python3 tools/apply_home_redesign.py
       - name: Upload patched source for review
         uses: actions/upload-artifact@v4
         with:
