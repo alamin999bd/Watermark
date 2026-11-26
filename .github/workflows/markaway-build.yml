@@ -30,6 +30,8 @@ jobs:
         run: python3 tools/apply_home_redesign.py
       - name: Fix brush touch handling
         run: python3 tools/apply_brush_touch_fix.py
+      - name: Add Watermark Remove branding and launcher logo
+        run: python3 tools/apply_branding.py
       - name: Upload patched source for review
         uses: actions/upload-artifact@v4
         with:
